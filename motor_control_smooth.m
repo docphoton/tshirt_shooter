@@ -1,22 +1,24 @@
-void setup() {
-  // put your setup code here, to run once:
-  Serial.begin(9600);
- 
+#include <Servo.h> 
 
-}
-int val=0, count=0;
+Servo drive;
+double reader;
+
+void setup() 
+{ 
+  drive.attach(9);
+  drive.write(90);  // set servo to off 0-180 foward is 0 back is 180 90 is no movement
+Serial.begin(9600);
+} 
+
 void loop() {
-  // put your main code here, to run repeatedly:
-  count++;
-  if(count<=250){
-    val--;
-  }
-  else if(count>=250){
-    val++;
-  }
-  if(count>=500){
-    count=0;
-  }
-  analogWrite(3,val);
-  Serial.println(val);
-}
+   drive.write(0);
+   digitalWrite(13,1);
+     reader=drive.read();
+    Serial.println(reader);
+   delay(1000);
+   drive.write(90);
+   digitalWrite(13,0);
+     reader=drive.read();
+   Serial.println(reader);
+    delay(1000);
+  } 
