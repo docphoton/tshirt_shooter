@@ -4,23 +4,30 @@
 //    it is akin, like a physical version of a clock domain crossing error. 
 #include <Servo.h> 
   Servo LdriveB;
+  int income;
 void setup()
 {
   Serial.begin(9600);
 LdriveB.attach(3);
+income=-1;
 }
 
 int x = 0, count = 0, num=1;
 double temp=0, dutycycle=135, val=0;
 void loop()
 {
-
-  LdriveB.write(1000);
-  delay(1000);
-  LdriveB.write(1500);
-  delay(2000);
-  LdriveB.write(2000);
-  delay(1000);
-  LdriveB.write(1500);
-  delay(2000);
+  income = Serial.read();
+  
+  if(income==119){
+   LdriveB.write(1000);
+  }
+  else if(income==115){
+     LdriveB.write(2000);
+  }
+  else{
+    LdriveB.write(1500);
+  }
+ 
+  Serial.println(income);
+  delay(100);
 }
