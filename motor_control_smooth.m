@@ -18,10 +18,10 @@ void loop()
 {
   income = Serial.read();
   
-  if(income==119){
+  if(income==119){//w
    LdriveB.write(1000);
   }
-  else if(income==115){
+  else if(income==115){//s
      LdriveB.write(2000);
   }
   else{
