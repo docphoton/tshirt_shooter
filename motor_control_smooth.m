@@ -1,14 +1,12 @@
-// Smooth out the motor controller response. 
-// 
-// Generates a triangle wave in PWM so that when the arduino talks to the TALON motor controllers there is not this embarrasing upwind when we switch PWM values. Dr. C. thinks this is due to the fact that the freqeuncy from the arduino is mismatched to the sync capabilities of the TALON conotrollers and they are stuttering. 
-//    it is akin, like a physical version of a clock domain crossing error. 
+//drives via putty wasd on computer
 #include <Servo.h> 
-  Servo LdriveB;
+  Servo Ldrive,Rdrive;
   int income;
 void setup()
 {
   Serial.begin(9600);
-LdriveB.attach(3);
+Ldrive.attach(3);
+Rdrive.attach(6);
 income=-1;
 }
 
@@ -18,16 +16,27 @@ void loop()
 {
   income = Serial.read();
   
-  if(income==119){//w
-   LdriveB.write(1000);
+  if(income==119){//w forward
+   Ldrive.write(1200);
+   Rdrive.write(1800);
   }
-  else if(income==115){//s
-     LdriveB.write(2000);
+    else if(income==97){//a left
+   Ldrive.write(1200);
+   Rdrive.write(1200);
+  }
+  else if(income==115){//s back
+     Ldrive.write(1800);
+     Rdrive.write(1200);
+  }
+  else if(income==100){//d right
+     Ldrive.write(1800);
+     Rdrive.write(1800);
   }
   else{
-    LdriveB.write(1500);
+    Ldrive.write(1500);
+    Rdrive.write(1500);
   }
  
   Serial.println(income);
-  delay(100);
+  delay(42);
 }
